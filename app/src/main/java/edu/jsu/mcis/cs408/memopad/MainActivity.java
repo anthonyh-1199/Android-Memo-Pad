@@ -17,9 +17,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         output = (TextView) findViewById(R.id.output);
     }
-    public void getAllContacts(View v) {
+
+    //Add an entry to the database
+    public void addMemo(View v) {
         DatabaseHandler db = new DatabaseHandler(this, null, null, 1);
-        String contacts = db.getAllContacts();
-        output.setText(contacts);
+        db.getAllMemos();
+
+        getAllMemos(v);
+    }
+
+    //Delete an entry from the database
+    public void deleteMemo(View v) {
+        DatabaseHandler db = new DatabaseHandler(this, null, null, 1);
+        String memos = db.getAllMemos();
+        output.setText(memos);
+
+        getAllMemos(v);
+    }
+
+    //Update the output text to show memos
+    public void getAllMemos(View v) {
+        DatabaseHandler db = new DatabaseHandler(this, null, null, 1);
+        String memos = db.getAllMemos();
+        output.setText(memos);
     }
 }

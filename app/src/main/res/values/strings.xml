@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MemoPad</string>
-    <string name="buttonText">Get Contacts</string>
+    <string name="deleteButton">Delete Memo</string>
+    <string name="addButton">Add Memo</string>
 </resources>

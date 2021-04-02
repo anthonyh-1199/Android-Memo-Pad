@@ -9,50 +9,47 @@ import androidx.annotation.Nullable;
 public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "mydatabase.db";
-    private static final String TABLE_CONTACTS = "contacts";
+    private static final String TABLE_MEMOS = "memos";
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_ADDRESS = "address";
+    public static final String COLUMN_MEMO = "name";
     public DatabaseHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory
             factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE contacts (_id integer primary key autoincrement, name text, address text)";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        String CREATE_MEMOS_TABLE = "CREATE TABLE contacts (_id integer primary key autoincrement, memo text)";
+        db.execSQL(CREATE_MEMOS_TABLE);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEMOS);
         onCreate(db);
     }
-    public void addContact(Contact c) {
+    public void addMemo(Memo  m) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, c.getName());
-        values.put(COLUMN_ADDRESS, c.getAddress());
+        values.put(COLUMN_MEMO, m.getMemo());
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(TABLE_CONTACTS, null, values);
+        db.insert(TABLE_MEMOS, null, values);
         db.close();
     }
-    public Contact getContact(int id) {
-        String query = "SELECT * FROM " + TABLE_CONTACTS + " WHERE " + COLUMN_ID + " = " + id;
+    public Memo getMemo(int id) {
+        String query = "SELECT * FROM " + TABLE_MEMOS + " WHERE " + COLUMN_ID + " = " + id;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Contact c = null;
+        Memo m = null;
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
             int newId = cursor.getInt(0);
-            String newName = cursor.getString(1);
-            String newAddress = cursor.getString(2);
+            String newMemo = cursor.getString(1);
             cursor.close();
-            c = new Contact(newId, newName, newAddress);
+            m = new Memo(newId, newMemo);
         }
         db.close();
-        return c;
+        return m;
     }
-    public String getAllContacts() {
-        String query = "SELECT * FROM " + TABLE_CONTACTS;
+    public String getAllMemos() {
+        String query = "SELECT * FROM " + TABLE_MEMOS;
         StringBuilder s = new StringBuilder();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -60,7 +57,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
             do {
                 int id = cursor.getInt(0);
-                s.append(getContact(id)).append("\n");
+                s.append(getMemo(id)).append("\n");
             }
             while ( cursor.moveToNext() );
         }
