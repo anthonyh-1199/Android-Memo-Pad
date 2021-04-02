@@ -7,25 +7,30 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 public class DatabaseHandler extends SQLiteOpenHelper {
+
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "mydatabase.db";
     private static final String TABLE_MEMOS = "memos";
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_MEMO = "name";
+    public static final String COLUMN_MEMO = "memo";
+
     public DatabaseHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory
             factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_MEMOS_TABLE = "CREATE TABLE contacts (_id integer primary key autoincrement, memo text)";
+        String CREATE_MEMOS_TABLE = "CREATE TABLE memos (_id integer primary key autoincrement, memo text)";
         db.execSQL(CREATE_MEMOS_TABLE);
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEMOS);
         onCreate(db);
     }
+
     public void addMemo(Memo  m) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_MEMO, m.getMemo());
@@ -33,6 +38,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_MEMOS, null, values);
         db.close();
     }
+
     public Memo getMemo(int id) {
         String query = "SELECT * FROM " + TABLE_MEMOS + " WHERE " + COLUMN_ID + " = " + id;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -48,6 +54,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return m;
     }
+
     public String getAllMemos() {
         String query = "SELECT * FROM " + TABLE_MEMOS;
         StringBuilder s = new StringBuilder();
@@ -64,4 +71,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return s.toString();
     }
+
+    public void deleteMemo(int id){
+        SQLiteDatabase db = this.getWritableDatabase(); // get database
+        String query = COLUMN_ID + " = " + id; // query to select row
+
+        db.delete(TABLE_MEMOS, query, null); // delete record from "memos"
+        db.close(); // close database
+    }
+
 }
