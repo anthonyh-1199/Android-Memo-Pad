@@ -5,23 +5,44 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView output;
-    private EditText addMemoText, deleteMemoId;
+
+    //private EditText addMemoText, deleteMemoId;
+    private RecyclerView output;
+    private DatabaseHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        output = (TextView) findViewById(R.id.output);
-
-        getAllMemos(findViewById(R.id.output));
+        output = (RecyclerView) findViewById(R.id.output);
+        db = new DatabaseHandler(this, null, null, 1);
+        updateRecyclerView();
     }
 
+    public void addNewMemo(View v) {
+        EditText memoInput = (EditText) findViewById(R.id.MemoAddText);
+        String memoText = memoInput.getText().toString();
+        db.addMemo(new Memo(memoText));
+        updateRecyclerView();
+    }
+
+    private void updateRecyclerView() {
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(db.getAllMemosAsList());
+        output.setHasFixedSize(true);
+        output.setLayoutManager(new LinearLayoutManager(this));
+        output.setAdapter(adapter);
+    }
+
+    /*
     //Add an entry to the database
     public void addMemo(View v) {
         DatabaseHandler db = new DatabaseHandler(this, null, null, 1);
@@ -52,4 +73,6 @@ public class MainActivity extends AppCompatActivity {
         String memos = db.getAllMemos();
         output.setText(memos);
     }
+
+     */
 }
