@@ -30,7 +30,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private Memo memo;
-        private TextView memoLabel;
+        private TextView memoText;
+        private TextView memoID;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -42,10 +43,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             this.memo = memo;
         }
         public void bindData() {
-            if (memoLabel == null) {
-                memoLabel = (TextView) itemView.findViewById(R.id.addText);
+            if (memoText == null) {
+                memoText = (TextView) itemView.findViewById(R.id.memoText);
             }
-            memoLabel.setText(memo.getMemo());
+            memoText.setText(memo.getText());
+
+            if (memoID == null) {
+                memoID = (TextView) itemView.findViewById(R.id.memoID);
+            }
+            memoID.setText(String.valueOf(memo.getID()) + ": ");
         }
     }
 

@@ -3,26 +3,26 @@ package edu.jsu.mcis.cs408.memopad;
 public class Memo {
 
     private int id;
-    private String memo;
+    private String text;
 
-    public Memo(int id, String memo) {
+    public Memo(int id, String text) {
         this.id = id;
-        this.memo = memo;
+        this.text = text;
     }
 
     public Memo(String memo) {
-        this.memo = memo;
+        this.text = memo;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public String getMemo() { return memo; }
-    public void setMemo(String name) { this.memo = name; }
+    public int getID() { return id; }
+    public void setID(int id) { this.id = id; }
+    public String getText() { return text; }
+    public void setText(String name) { this.text = name; }
 
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append(id).append(": ").append(memo).append("\n");
+        s.append(id).append(": ").append(text).append("\n");
         return s.toString();
     }
 }

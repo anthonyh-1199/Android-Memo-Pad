@@ -37,7 +37,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void addMemo(Memo  m) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_MEMO, m.getMemo());
+        values.put(COLUMN_MEMO, m.getText());
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_MEMOS, null, values);
         db.close();
