@@ -28,10 +28,17 @@ public class MainActivity extends AppCompatActivity {
         updateRecyclerView();
     }
 
-    public void addNewMemo(View v) {
+    public void addMemo(View v) {
         EditText memoInput = (EditText) findViewById(R.id.MemoAddText);
         String memoText = memoInput.getText().toString();
         db.addMemo(new Memo(memoText));
+        updateRecyclerView();
+    }
+
+    public void deleteMemo(View v) {
+        EditText idInput = (EditText) findViewById(R.id.MemoDeleteText);
+        int id = Integer.parseInt(idInput.getText().toString());
+        db.deleteMemo(id);
         updateRecyclerView();
     }
 
@@ -42,37 +49,4 @@ public class MainActivity extends AppCompatActivity {
         output.setAdapter(adapter);
     }
 
-    /*
-    //Add an entry to the database
-    public void addMemo(View v) {
-        DatabaseHandler db = new DatabaseHandler(this, null, null, 1);
-        addMemoText = (EditText) findViewById(R.id.addText);
-
-        Memo memo = new Memo(addMemoText.getText().toString());
-
-        db.addMemo(memo);
-
-        getAllMemos(v);
-    }
-
-    //Delete an entry from the database
-    public void deleteMemo(View v) {
-        DatabaseHandler db = new DatabaseHandler(this, null, null, 1);
-        deleteMemoId = (EditText) findViewById(R.id.deleteText);
-
-        int id = Integer.parseInt(deleteMemoId.getText().toString());
-
-        db.deleteMemo(id);
-
-        getAllMemos(v);
-    }
-
-    //Update the output text to show memos
-    public void getAllMemos(View v) {
-        DatabaseHandler db = new DatabaseHandler(this, null, null, 1);
-        String memos = db.getAllMemos();
-        output.setText(memos);
-    }
-
-     */
 }
